@@ -11,8 +11,10 @@ os.fetchdir()
 
 os.chdir()
 
-def validateDir()
+def listBooks()
+	os.listdir(bagit-K_HOME)
 
+def validateBooks()
 
 source-organization = 'McMaster University'
 organization-address = '1280 Main St. West Mills Memorial Library, Hamilton ON L8S 4L6'
