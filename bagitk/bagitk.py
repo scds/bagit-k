@@ -26,21 +26,21 @@ class BagItK(object):
 	# Validate a BagIt folder structure
 	def validate(self, dir):
 		if not exists(dir):
-			log_error("Folder " + dir + " does not exist.")
+			_log_error("Folder " + dir + " does not exist.")
 			exit(1)
 		look_for = ['OCR', 'PDF', 'IMAGES', 'METADATA']
 		for folder in look_for:
 			target = dir + os.sep + folder
 			if not exists(target):
-				log_error("Folder " + target + " does not exist.")
+				_log_error("Folder " + target + " does not exist.")
 				exit(1)
 			if listdir(target).__len__() < 1:
-				log_error("Folder " + target + " is empty.")
+				_log_error("Folder " + target + " is empty.")
 				exit(1)
 		return True
 	
 	# Log an error to file
-	def log_error(self, msg):
+	def _log_error(self, msg):
 		try:
 			log = open('bagitk.log', 'w+')
 			log.write(msg)
@@ -49,7 +49,7 @@ class BagItK(object):
 			print this.scriptname + " has encountered an error but is unable to open log file for writing. Check that you have write permissions in the current folder."
 
 	# Get the value of dc.title from xmlfile
-	def get_title(self, xmlfile):
+	def _get_title(self, xmlfile):
 		DCNS = "http://purl.org/dc/elements/1.1/"
 		dom = minidom.parse(xmlfile)
 		for node in dom.getElementsByTagNameNS(DCNS, 'title'):
@@ -66,7 +66,7 @@ class BagItK(object):
 				'Contact-Name': CONTACT_NAME,
 				'Contact-Phone': CONTACT_PHONE,
 				'Contact-Email': CONTACT_EMAIL,
-				'External-Description': this.dest + '-' + this.get_title(this.dest + os.sep + "foo_DC.xml"),
+				'External-Description': this.dest + '-' + this._get_title(this.dest + os.sep + "foo_DC.xml"),
 				'External-Identifier': this.dest
 			}
 		)
