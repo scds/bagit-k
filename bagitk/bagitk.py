@@ -6,7 +6,7 @@
 
 from sys import exit, argv
 from os import listdir
-from os.path import exists, dirname
+from os.path import exists, dirname, basename
 from xml.dom import minidom
 import bagit
 
@@ -18,10 +18,9 @@ CONTACT_PHONE = ''
 CONTACT_EMAIL = ''
 
 class BagItK(object):
-	def __init__(self):
-		this.scriptname = argv[0]
-		this.src = argv[1]
-		this.dest = argv[2]
+	def __init__(self, src, dest):
+		this.src = src
+		this.dest = dest
 	
 	# Validate a BagIt folder structure
 	def validate(self, dir):
@@ -34,7 +33,7 @@ class BagItK(object):
 			if not exists(target):
 				_log_error("Folder " + target + " does not exist.")
 				exit(1)
-			if listdir(target).__len__() < 1:
+			if len(listdir(target)) < 1:
 				_log_error("Folder " + target + " is empty.")
 				exit(1)
 		return True
@@ -46,7 +45,7 @@ class BagItK(object):
 			log.write(msg)
 			log.close()
 		except IOError:
-			print this.scriptname + " has encountered an error but is unable to open log file for writing. Check that you have write permissions in the current folder."
+			print "BagItK has encountered an error but is unable to open log file for writing. Check that you have write permissions in the current folder."
 
 	# Get the value of dc.title from xmlfile
 	def _get_title(self, xmlfile):
@@ -56,6 +55,11 @@ class BagItK(object):
 			title = node.firstChild.data.strip("\n\t ")
 		return title
 	
+	# Get the OCLC number from the source folder
+	def _get_oclc(self):
+		oclc = basename(this.src)
+		return oclc
+		
 	# Execute bagit.py
 	def bagitk(self):
 		bag = bagit.Bag(
@@ -70,3 +74,13 @@ class BagItK(object):
 				'External-Identifier': this.dest
 			}
 		)
+
+def usage():
+	print "Produces a BagIt package from Kirtas data folder."
+	print "Usage: python bagitk.py SRC DEST"
+
+if __name__ == "__main__":
+	if len(argv) < 3:
+		usage()
+		exit(1)
+	bk = BagItK(argv[1], argv[2])
