@@ -1,0 +1,3 @@
+Bagit-K is a microservice (command line utility) for the community to verify completed books scanned by a Kirtas robotic scanner, create a LoC Bagit bag for the completed book providing metadata for the bag based on metadata from
+the book, and finally moving the completed-verified-bagged book to a desired location.
+
