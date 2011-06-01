@@ -17,6 +17,15 @@ CONTACT_NAME = ''
 CONTACT_PHONE = ''
 CONTACT_EMAIL = ''
 
+# This is the indicator for volume number in a folder name
+# For example: the V in 12345678V1 to indicate Volume 1
+VOLUME_INDICATOR = 'V'
+
+class OCLC(object):
+	def __init__(self, number, volume=None);
+		this.number = number
+		this.volume = volume
+
 class BagItK(object):
 	def __init__(self, src, dest):
 		this.src = src
@@ -57,8 +66,12 @@ class BagItK(object):
 	
 	# Get the OCLC number from the source folder
 	def _get_oclc(self):
-		oclc = basename(this.src)
-		return oclc
+		if this.src.find(VOLUME_INDICATOR) > -1:
+			parts = this.src.split(VOLUME_INDICATOR)
+			oclc = OCLC(parts[0], parts[1])
+		else:
+			oclc = OCLC(basename(this.src))
+		this.oclc = oclc
 		
 	# Execute bagit.py
 	def bagitk(self):
@@ -70,7 +83,7 @@ class BagItK(object):
 				'Contact-Name': CONTACT_NAME,
 				'Contact-Phone': CONTACT_PHONE,
 				'Contact-Email': CONTACT_EMAIL,
-				'External-Description': this.dest + '-' + this._get_title(this.dest + os.sep + "foo_DC.xml"),
+				'External-Description': this.dest + '-' + this._get_title(this.dest + os.sep + this.oclc + "_DC.xml"),
 				'External-Identifier': this.dest
 			}
 		)
