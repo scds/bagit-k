@@ -11,11 +11,11 @@ from xml.dom import minidom
 import bagit
 
 # Use these to customize BagIt metadata
-SOURCE_ORGANIZATION = 'McMaster University'
-ORGANIZATION_ADDRESS = '1280 Main St. West, Mills Memorial Library, Hamilton ON L8S 4L6'
-CONTACT_NAME = 'Nick Ruest'
-CONTACT_PHONE = '+1 (905) 525-9140 x21276'
-CONTACT_EMAIL = 'ruestn@mcmaster.ca'
+SOURCE_ORGANIZATION = ''
+ORGANIZATION_ADDRESS = ''
+CONTACT_NAME = ''
+CONTACT_PHONE = ''
+CONTACT_EMAIL = ''
 
 class BagItK(object):
 	def __init__(self):
