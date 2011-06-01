@@ -23,13 +23,13 @@ VOLUME_INDICATOR = 'V'
 
 class OCLC(object):
 	def __init__(self, number, volume=None);
-		this.number = number
-		this.volume = volume
+		self.number = number
+		self.volume = volume
 
 class BagItK(object):
 	def __init__(self, src, dest):
-		this.src = src
-		this.dest = dest
+		self.src = src
+		self.dest = dest
 	
 	# Validate a BagIt folder structure
 	def validate(self, dir):
@@ -66,25 +66,25 @@ class BagItK(object):
 	
 	# Get the OCLC number from the source folder
 	def _get_oclc(self):
-		if this.src.find(VOLUME_INDICATOR) > -1:
-			parts = this.src.split(VOLUME_INDICATOR)
+		if self.src.find(VOLUME_INDICATOR) > -1:
+			parts = self.src.split(VOLUME_INDICATOR)
 			oclc = OCLC(parts[0], parts[1])
 		else:
-			oclc = OCLC(basename(this.src))
-		this.oclc = oclc
+			oclc = OCLC(basename(self.src))
+		self.oclc = oclc
 		
 	# Execute bagit.py
 	def bagitk(self):
 		bag = bagit.Bag(
-			this.dest,
+			self.dest,
 			{
 				'Source-Organization': SOURCE_ORGANIZATION,
 				'Organization-Address': ORGANIZATION_ADDRESS,
 				'Contact-Name': CONTACT_NAME,
 				'Contact-Phone': CONTACT_PHONE,
 				'Contact-Email': CONTACT_EMAIL,
-				'External-Description': this.dest + '-' + this._get_title(this.dest + os.sep + this.oclc + "_DC.xml"),
-				'External-Identifier': this.dest
+				'External-Description': self.dest + '-' + self._get_title(self.dest + os.sep + self.oclc + "_DC.xml"),
+				'External-Identifier': self.dest
 			}
 		)
 
